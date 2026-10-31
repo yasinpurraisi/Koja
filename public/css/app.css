@@ -1430,6 +1430,106 @@ input[type="checkbox"] {
     margin-top: 52px;
 }
 
+.recommendation-panel {
+    padding: clamp(20px, 4vw, 32px);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    box-shadow: var(--shadow-sm);
+}
+
+.recommendation-panel .section-heading {
+    margin-bottom: 20px;
+}
+
+.recommendation-panel .section-heading p {
+    max-width: 650px;
+    margin-bottom: 0;
+}
+
+.recommendation-form {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 16px;
+}
+
+.recommendation-coordinate-fields,
+.recommendation-actions {
+    display: flex;
+    align-items: end;
+    gap: 12px;
+}
+
+.recommendation-coordinate-fields .form-field {
+    flex: 1 1 0;
+}
+
+.recommendation-actions {
+    flex-wrap: wrap;
+}
+
+.recommendation-location-status {
+    grid-column: 1 / -1;
+    margin: 0;
+    font-size: 0.85rem;
+}
+
+.recommendation-list {
+    display: grid;
+    gap: 18px;
+    width: min(100%, 920px);
+    margin-inline: auto;
+}
+
+.recommendation-card .salon-card-top {
+    align-items: center;
+}
+
+.recommendation-rank {
+    display: grid;
+    flex: 0 0 auto;
+    width: 42px;
+    height: 42px;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--primary-soft);
+    color: var(--primary-dark);
+    font-size: 1.05rem;
+    font-weight: 800;
+}
+
+.recommendation-score {
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-left: auto;
+    color: var(--muted);
+    font-size: 0.78rem;
+}
+
+.recommendation-score strong {
+    color: var(--primary-dark);
+    font-size: 1.15rem;
+}
+
+.recommendation-score small {
+    margin-left: 2px;
+    color: var(--muted);
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.recommendation-distance {
+    color: var(--foreground);
+    font-weight: 600;
+}
+
+.recommendation-page-heading {
+    align-items: center;
+}
+
 .section > .section-heading {
     margin-bottom: 22px;
 }
@@ -2051,6 +2151,25 @@ input[type="checkbox"] {
         gap: 12px;
         margin-top: 24px;
         padding: 14px;
+    }
+
+    .recommendation-form {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .recommendation-coordinate-fields,
+    .recommendation-actions {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .recommendation-page-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .recommendation-score {
+        align-items: flex-start;
     }
 
     .search-button {

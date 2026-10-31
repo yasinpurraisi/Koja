@@ -42,6 +42,77 @@
         </form>
     </section>
 
+    <section class="section recommendation-section" id="recommendations">
+        <div class="recommendation-panel">
+            <div class="section-heading">
+                <div>
+                    <span class="eyebrow">PERSONALIZED PICKS</span>
+                    <h2>Find salons near you</h2>
+                    <p class="muted">
+                        Share your location or enter coordinates to rank nearby
+                        salons by distance and customer ratings.
+                    </p>
+                </div>
+            </div>
+
+            <form
+                method="GET"
+                action="{{ route('salons.recommended') }}"
+                class="recommendation-form"
+            >
+                <div class="recommendation-coordinate-fields">
+                    <div class="form-field">
+                        <label for="recommendation-latitude">Latitude</label>
+                        <input
+                            id="recommendation-latitude"
+                            name="latitude"
+                            type="number"
+                            step="any"
+                            min="-90"
+                            max="90"
+                            value="{{ old('latitude', request('latitude')) }}"
+                            autocomplete="off"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-field">
+                        <label for="recommendation-longitude">Longitude</label>
+                        <input
+                            id="recommendation-longitude"
+                            name="longitude"
+                            type="number"
+                            step="any"
+                            min="-180"
+                            max="180"
+                            value="{{ old('longitude', request('longitude')) }}"
+                            autocomplete="off"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <div class="recommendation-actions">
+                    <button
+                        class="button button-secondary"
+                        type="button"
+                        id="use-current-location"
+                    >
+                        Use my current location
+                    </button>
+
+                    <button class="button button-primary" type="submit">
+                        Recommend salons
+                    </button>
+                </div>
+
+                <p class="recommendation-location-status muted" id="location-status" role="status" aria-live="polite">
+                    Coordinates are used only for this search.
+                </p>
+            </form>
+        </div>
+    </section>
+
     <section class="section">
         <div class="section-heading">
             <div>
@@ -112,3 +183,42 @@
         @endauth
     </section>
 @endsection
+
+@push('scripts')
+    <script>
+        const locationButton = document.getElementById('use-current-location');
+        const locationStatus = document.getElementById('location-status');
+        const latitudeInput = document.getElementById('recommendation-latitude');
+        const longitudeInput = document.getElementById('recommendation-longitude');
+
+        locationButton.addEventListener('click', () => {
+            if (!navigator.geolocation) {
+                locationStatus.textContent = 'Location access is not supported by this browser. Enter your coordinates instead.';
+                return;
+            }
+
+            locationButton.disabled = true;
+            locationStatus.textContent = 'Waiting for location permission…';
+
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    latitudeInput.value = position.coords.latitude.toFixed(6);
+                    longitudeInput.value = position.coords.longitude.toFixed(6);
+                    locationButton.disabled = false;
+                    locationStatus.textContent = 'Location added. Submit the form to see your recommendations.';
+                },
+                (error) => {
+                    const messages = {
+                        1: 'Location permission was denied. Enter your coordinates instead.',
+                        2: 'Your location could not be determined. Try again or enter your coordinates.',
+                        3: 'Finding your location timed out. Try again or enter your coordinates.',
+                    };
+
+                    locationButton.disabled = false;
+                    locationStatus.textContent = messages[error.code] ?? 'Location access failed. Enter your coordinates instead.';
+                },
+                { enableHighAccuracy: false, timeout: 10000, maximumAge: 60000 }
+            );
+        });
+    </script>
+@endpush

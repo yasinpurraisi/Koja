@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SalonController;
 use App\Http\Controllers\SalonOpeningHourController;
+use App\Http\Controllers\SalonRecommendationController;
 use App\Http\Controllers\SalonRegistrationController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,6 +23,9 @@ Route::get('/', fn () => redirect()->route('salons.index'))
 
 Route::get('/salons', [SalonController::class, 'index'])
     ->name('salons.index');
+
+Route::get('/salons/recommended', [SalonRecommendationController::class, 'recommended'])
+    ->name('salons.recommended');
 
 Route::get('/salons/{salon}', [SalonController::class, 'show'])
     ->name('salons.show');
